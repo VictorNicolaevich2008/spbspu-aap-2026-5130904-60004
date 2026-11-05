@@ -8,7 +8,7 @@ namespace kibirev
 int main()
 {
   char *str1 = nullptr;
-  const char *str2 = "hello";
+  const char *const str2 = "hello";
   const size_t len2 = sizeof(str2) - 1;
   try
   {
