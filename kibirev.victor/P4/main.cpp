@@ -8,33 +8,28 @@ namespace kibirev
 int main()
 {
   char *str1 = nullptr;
-  char *str2 = nullptr;
+  const char *str2 = "hello";
+  const size_t len2 = sizeof(str2) - 1;
   try
   {
     str1 = new char[1]{'\0'};
     size_t len1 = 0;
-    str2 = new char[1]{'\0'};
-    size_t len2 = 0;
     kibirev::readstr(std::cin, str1, len1);
-    kibirev::readstr(std::cin, str2, len2);
-    if (len1 == 0 || len2 == 0)
+    if (len1 == 0)
     {
       std::cerr << "Empty string\n";
       delete[] str1;
-      delete[] str2;
       return 2;
     }
     const int res = kibirev::hasSam(str1, str2, len1, len2);
 
     std::cout << res << '\n';
-    delete[] str2;
     delete[] str1;
     return 0;
   }
   catch (const std::bad_alloc &e)
   {
     std::cerr << e.what() << '\n';
-    delete[] str2;
     delete[] str1;
     return 1;
   }
