@@ -7,8 +7,8 @@ namespace kibirev
 }
 int main()
 {
-  char *str1;
-  char *str2;
+  char *str1 = nullptr;
+  char *str2 = nullptr;
   try
   {
     str1 = new char[1]{'\0'};
@@ -17,7 +17,13 @@ int main()
     size_t len2 = 0;
     kibirev::readstr(std::cin, str1, len1);
     kibirev::readstr(std::cin, str2, len2);
-
+    if (len1 == 0 || len2 == 0)
+    {
+      std::cerr << "Empty string\n";
+      delete[] str1;
+      delete[] str2;
+      return 2;
+    }
     const int res = kibirev::hasSam(str1, str2, len1, len2);
 
     std::cout << res << '\n';
@@ -37,11 +43,11 @@ int main()
 std::istream &kibirev::readstr(std::istream &input, char *&string, size_t &len)
 {
   size_t i = 0;
-  char c;
+  char c = 0;
   while (input.get(c) && c != '\n')
   {
     i++;
-    char *dop = new char[i + 1];
+    char *const dop = new char[i + 1];
     for (size_t j = 0; j < i - 1; j++)
     {
       dop[j] = string[j];
