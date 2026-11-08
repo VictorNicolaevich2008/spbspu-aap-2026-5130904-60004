@@ -1,76 +1,109 @@
 #include <iostream>
 #include <stdexcept>
+
 namespace kibirev
 {
-  int pifTrip();
+  struct Piftr
+  {
+    Piftr() {};
+    void operator()(int value);
+    int operator()() const;
+    size_t getCounter();
+  private:
+    long long sum = 0;
+    int piftr = 0;
+    size_t num;
+    size_t counter = 0;
+    bool flag = true;
+  };
 }
 
 int main()
 {
   try
   {
-    const int ans = kibirev::pifTrip();
-    std::cout << ans << "\n";
+    Piftr cnt;
+    int value = 0;
+    if (!(std::cin >> value))
+    {
+      throw std::invalid_argument("Not a number\n");
+    }
+    while (value != 0)
+    {
+      cnt(value);
+      if (!(std::cin >> value))
+      {
+        throw std::invalid_argument("Not a number\n");
+      }
+    }
+    if (cnt.getCounter() == 0)
+    {
+      std::cout << cnt();
+    }
+    else
+    {
+      throw std::logic_error("Not enough elements\n");
+    }
   }
   catch (const std::invalid_argument& e)
   {
-    std::cerr << e.what() << "\n";
+    std::cerr << e.what() << '\n';
     return 1;
   }
-}
-namespace kibirev
-{
-  int pifTrip()
+  catch (const std::logic_error& e)
   {
-    int num = 0;
-    int piftr = 0;
-    int cntr = 0;
-    bool bad = false;
-    long long sum = 0;
-    if (!(std::cin >> num))
+    std::cerr << e.what() << '\n';
+    return 2;
+  }
+}
+
+struct Piftr
+{
+  Piftr() {};
+
+  void operator()(int value)
+  {
+    if (counter < 2)
     {
-      throw std::invalid_argument("Not a number of int\n");
-    }
-    if (num == 0)
-    {
-      std::cerr << "Не полная последовательность\n";
-      return 2;
-    }
-    while (num != 0)
-    {
-      if (cntr < 2)
+      if (value > 0)
       {
-        if (num > 0)
-        {
-          const long long n = num;
-          sum += n * n;
-        }
-        else
-        {
-          bad = true;
-        }
-        cntr++;
+        num = value;
+        sum += num * num;
       }
       else
       {
-        if (!bad && num > 0 && sum == num * num)
+        flag = false;
+      }
+      counter++;
+    }
+    else
+    {
+      if (flag && value > 0)
+      {
+        num = value;
+        if (sum == num * num)
         {
           piftr++;
         }
-        cntr = 0;
-        sum = 0;
-        bad = false;
       }
-      if (!(std::cin >> num))
-      {
-        throw std::invalid_argument("Not a number of int\n");
-      }
+      counter = 0;
+      sum = 0;
+      flag = true;
     }
-    if (cntr != 0)
-    {
-      std::cerr << "Не полная последовательность.\n";
-      return 2;
-    }
+  }
+  int operator()() const
+  {
     return piftr;
   }
-}
+  size_t getCounter() const
+  {
+    return counter;
+  }
+private:
+  long long sum = 0;
+  int piftr = 0;
+  size_t num;
+  size_t counter = 0;
+  bool flag = true;
+};
+
