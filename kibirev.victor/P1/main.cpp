@@ -1,7 +1,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <cstddef>
- 
+
 namespace kibirev
 {
   struct Piftr
@@ -18,7 +18,7 @@ namespace kibirev
     bool flag = true;
   };
 }
- 
+
 int main()
 {
   using kibirev::Piftr;
@@ -58,7 +58,7 @@ int main()
     return 2;
   }
 }
- 
+
 void kibirev::Piftr::operator()(int value)
 {
   if (counter < 2)
@@ -89,12 +89,12 @@ void kibirev::Piftr::operator()(int value)
     flag = true;
   }
 }
- 
+
 int kibirev::Piftr::operator()() const
 {
   return piftr;
 }
- 
+
 size_t kibirev::Piftr::getCounter() const
 {
   return counter;
