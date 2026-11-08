@@ -1,5 +1,7 @@
 #include <iostream>
 #include <stdexcept>
+#include <cstddef>
+ 
 namespace kibirev
 {
   struct Piftr
@@ -7,16 +9,19 @@ namespace kibirev
     Piftr() {};
     void operator()(int value);
     int operator()() const;
-    size_t getCounter();
+    size_t getCounter() const;
   private:
     long long sum = 0;
     int piftr = 0;
-    size_t num;
+    long long num = 0;
     size_t counter = 0;
     bool flag = true;
   };
+}
+ 
 int main()
 {
+  using kibirev::Piftr;
   try
   {
     Piftr cnt;
@@ -53,54 +58,44 @@ int main()
     return 2;
   }
 }
-
-struct Piftr
+ 
+void kibirev::Piftr::operator()(int value)
 {
-  Piftr() {};
-
-  void operator()(int value)
+  if (counter < 2)
   {
-    if (counter < 2)
+    if (value > 0)
     {
-      if (value > 0)
-      {
-        num = value;
-        sum += num * num;
-      }
-      else
-      {
-        flag = false;
-      }
-      counter++;
+      num = value;
+      sum += num * num;
     }
     else
     {
-      if (flag && value > 0)
-      {
-        num = value;
-        if (sum == num * num)
-        {
-          piftr++;
-        }
-      }
-      counter = 0;
-      sum = 0;
-      flag = true;
+      flag = false;
     }
+    counter++;
   }
-  int operator()() const
+  else
   {
-    return piftr;
+    if (flag && value > 0)
+    {
+      num = value;
+      if (sum == num * num)
+      {
+        piftr++;
+      }
+    }
+    counter = 0;
+    sum = 0;
+    flag = true;
   }
-  size_t getCounter() const
-  {
-    return counter;
-  }
-private:
-  long long sum = 0;
-  int piftr = 0;
-  size_t num;
-  size_t counter = 0;
-  bool flag = true;
-};
-
+}
+ 
+int kibirev::Piftr::operator()() const
+{
+  return piftr;
+}
+ 
+size_t kibirev::Piftr::getCounter() const
+{
+  return counter;
+}
