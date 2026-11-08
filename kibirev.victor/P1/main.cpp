@@ -1,6 +1,5 @@
 #include <iostream>
 #include <stdexcept>
-
 namespace kibirev
 {
   struct Piftr
@@ -16,8 +15,6 @@ namespace kibirev
     size_t counter = 0;
     bool flag = true;
   };
-}
-
 int main()
 {
   try
