@@ -11,11 +11,11 @@ namespace kibirev
     int operator()() const;
     size_t getCounter() const;
   private:
-    long long sum = 0;
-    int piftr = 0;
-    long long num = 0;
-    size_t counter = 0;
-    bool flag = true;
+    long long sum_ = 0;
+    int piftr_ = 0;
+    long long num_ = 0;
+    size_t counter_ = 0;
+    bool flag_ = true;
   };
 }
 
@@ -61,41 +61,41 @@ int main()
 
 void kibirev::Piftr::operator()(int value)
 {
-  if (counter < 2)
+  if (counter_ < 2)
   {
     if (value > 0)
     {
-      num = value;
-      sum += num * num;
+      num_ = value;
+      sum_ += num_ * num_;
     }
     else
     {
-      flag = false;
+      flag_ = false;
     }
-    counter++;
+    counter_++;
   }
   else
   {
-    if (flag && value > 0)
+    if (flag_ && value > 0)
     {
-      num = value;
-      if (sum == num * num)
+      num_ = value;
+      if (sum_ == num_ * num_)
       {
-        piftr++;
+        piftr_++;
       }
     }
-    counter = 0;
-    sum = 0;
-    flag = true;
+    counter_ = 0;
+    sum_ = 0;
+    flag_ = true;
   }
 }
 
 int kibirev::Piftr::operator()() const
 {
-  return piftr;
+  return piftr_;
 }
 
 size_t kibirev::Piftr::getCounter() const
 {
-  return counter;
+  return counter_;
 }
