@@ -1,62 +1,76 @@
 #include <iostream>
 #include <stdexcept>
-#include <climits>
 
 namespace semenets
 {
-  int countSignChanges();
+  struct CountSignChanges
+  {
+    CountSignChanges();
+    void operator()(int value);
+    size_t operator()() const;
+
+  private:
+    size_t count_;
+    size_t count_num_;
+    int znak_past_;
+    int znak_new_;
+  };
+}
+
+semenets::CountSignChanges::CountSignChanges():
+  count_(0),
+  count_num_(0),
+  znak_past_(0),
+  znak_new_(0)
+{}
+
+void semenets::CountSignChanges::operator()(int value)
+{
+  ++count_num_;
+  if (value > 0)
+  {
+    znak_new_ = 1;
+  }
+  else
+  {
+    znak_new_ = -1;
+  }
+  if (count_num_ != 1 && znak_new_ != znak_past_)
+  {
+    ++count_;
+  }
+  znak_past_ = znak_new_;
+}
+
+size_t semenets::CountSignChanges::operator()() const
+{
+  return count_;
 }
 
 int main()
 {
   try
   {
-    const int result = semenets::countSignChanges();
-    std::cout << result << "\n";
+    semenets::CountSignChanges counter;
+    while (true)
+    {
+      int value = 0;
+      if (!(std::cin >> value))
+      {
+        throw std::invalid_argument("Not a number enter");
+      }
+      if (value == 0)
+      {
+        break;
+      }
+      counter(value);
+    }
+    std::cout << counter() << "\n";
     return 0;
   }
   catch (const std::invalid_argument& e)
   {
     std::cerr << e.what() << "\n";
     return 1;
-  }
-}
-
-namespace semenets
-{
-  int countSignChanges()
-  {
-    int num = 0;
-    int count = 0;
-    int count_num = 0;
-    int znak_past = 0;
-    int znak_new = 0;
-    while (true)
-    {
-      std::cin >> num;
-      if (std::cin.fail())
-      {
-        throw std::invalid_argument("Not a number enter");
-      }
-      if (num == 0)
-      {
-        break;
-      }
-      ++count_num;
-      if (num > 0)
-      {
-        znak_new = 1;
-      }
-      else
-      {
-        znak_new = -1;
-      }
-      if (count_num != 1 && znak_new != znak_past)
-      {
-        ++count;
-      }
-      znak_past = znak_new;
-    }
-    return count;
   }
 }

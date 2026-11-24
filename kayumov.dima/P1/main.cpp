@@ -11,21 +11,17 @@ int main()
   try
   {
     const int result = kayumov::maxChislo();
-
     std::cout << result << "\n";
-
     return 0;
   }
-  catch (const std::invalid_argument& e)
+  catch (const std::invalid_argument & e)
   {
     std::cerr << e.what() << "\n";
-
     return 1;
   }
-  catch (const std::runtime_error& a)
+  catch (const std::runtime_error & a)
   {
     std::cerr << a.what() << "\n";
-
     return 2;
   }
 }
@@ -34,38 +30,23 @@ namespace kayumov
 {
   int maxChislo()
   {
-    int longer = 0;
-    int cnt = 0;
-    int max = 0;
-    int k = 0;
-    while (true)
+    int number = 0;
+    if (!(std::cin >> number))
     {
-      if (!(std::cin >> k))
+      throw std::invalid_argument("Invalid input");
+    }
+    int max_val = number;
+    while (std::cin >> number)
+    {
+      if (number > max_val)
       {
-        throw std::invalid_argument("Error: invald input count");
-      }
-      if (k == 0)
-      {
-        break;
-      }
-
-      ++longer;
-      if (max < k)
-      {
-        max = k;
-        cnt = 0;
-      }
-      else
-      {
-        cnt++;
+        max_val = number;
       }
     }
-
-    if (longer == 0)
+    if (!std::cin.eof())
     {
-      throw std::runtime_error("Error: sequence too short");
+      throw std::runtime_error("Read error");
     }
-
-    return cnt;
+    return max_val;
   }
 }
