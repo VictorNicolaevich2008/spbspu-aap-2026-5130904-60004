@@ -26,7 +26,7 @@ int main()
   const point_t uc1 = {2.0, -3.0};
   const point_t uc2 = {5.0, -3.0};
   const size_t n = 3;
-  Shape * shapes[n] = {nullptr, nullptr, nullptr};
+  Shape* shapes[n] = {nullptr, nullptr, nullptr};
   try
   {
     shapes[0] = new Rectangle(rw, rh, rc);
@@ -63,7 +63,6 @@ int main()
     return 1;
   }
 }
-
 void kibirev::isotropPoint(Shape** shapes, point_t p, double k, size_t len)
 {
   const double x = p.x;
@@ -92,7 +91,6 @@ rectangle_t kibirev::getTotalFrame(Shape** shapes, size_t len)
   double max_x = r.pos.x + r.width / 2;
   double min_y = r.pos.y - r.height / 2;
   double max_y = r.pos.y + r.height / 2;
-
   for (size_t i = 1; i < len; i++)
   {
     r = shapes[i]->getFrameRect();
@@ -100,7 +98,7 @@ rectangle_t kibirev::getTotalFrame(Shape** shapes, size_t len)
     max_x = std::max(max_x, r.pos.x + r.width / 2);
     min_y = std::min(min_y, r.pos.y - r.height / 2);
     max_y = std::max(max_y, r.pos.y + r.height / 2);
- }
+  }
   return {{(min_x + max_x) / 2, (min_y + max_y) / 2}, max_x - min_x, max_y - min_y};
 }
 void kibirev::getInfo(Shape** shapes, size_t len)
